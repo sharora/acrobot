@@ -1,5 +1,8 @@
 import rclpy
 from rclpy.node import Node
+import math
+import time
+import numpy as np
 
 # message types for the publisher and subscriber
 from std_msgs.msg import Float64MultiArray, Float64
@@ -24,11 +27,13 @@ class Controller(Node):
 
     def subscriber_callback(self, msg):
         # printing message for debugging
-        self.get_logger().info('I heard: "%s"' % msg.data)
+        # self.get_logger().info('I heard: "%s"' % msg.data)
+        pass
 
     def timer_callback(self):
         msg = Float64()
-        msg.data = 0.0
+        # sending sinusoidal signal for sanity testing
+        msg.data = 0.05 * math.sin(2 * np.pi *time.time()) # [Nm]
         self.publisher_.publish(msg)
     
 def main():
